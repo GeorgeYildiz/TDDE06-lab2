@@ -1,1 +1,1 @@
-FROM nginx:onbuild
+FROM nginx:latest

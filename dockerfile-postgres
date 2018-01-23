@@ -1,1 +1,1 @@
-FROM postgres:onbuild
+FROM postgres:latest
