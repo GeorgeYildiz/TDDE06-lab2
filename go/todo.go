@@ -10,12 +10,12 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"os"
 )
 
 const (
 	databaseUser = "postgres"
-	databaseHost = "db"
-	databaseName = "postgres"
+	databaseName = "my_database"
 )
 
 type Task struct {
@@ -181,7 +181,7 @@ func (db *Database) taskHandler(w http.ResponseWriter, r *http.Request) {
 // ConnextDB connects to a postgres database.
 // it returns a database handle.
 func ConnectDb() *sql.DB {
-	// TODO: Refactor the database config
+	databaseHost := os.Getenv("DB_PORT_5432_TCP_ADDR")
 	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s@%s/%s?sslmode=disable", databaseUser, databaseHost, databaseName))
 	if err != nil {
 		log.Fatal(err)
@@ -201,7 +201,7 @@ func Handlers() *http.ServeMux {
 }
 
 func main() {
-	// Listen on port 5050
+	// Listen on port 8080
 	err := http.ListenAndServe(":8080", Handlers())
 	if err != nil {
 		log.Fatal(err)
