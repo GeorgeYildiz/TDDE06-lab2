@@ -70,14 +70,10 @@ func getURLParameter(path string) *string {
 // It returns a slice of List structs.
 func getLists(db *sql.DB, w http.ResponseWriter) []List {
 	rows, err := db.Query("select * from list")
-	fmt.Println(err)
 	CheckFatal(err, w)
 
 	// Retrieve all lists from the query
-	res := make([]List, 0)
-	if(rows == nil) {
-		fmt.Println("rows ar nil")
-	} 
+	res := make([]List, 0) 
 	
 	for rows.Next() {
 		list := List{}
