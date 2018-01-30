@@ -1,7 +1,3 @@
-FROM postgres:latest
+FROM postgres
 
-ENV POSTGRES_DB postgres
-ENV POSTGRES_USER postgres
-COPY ./schema.sql /docker-entrypoint-initdb.docker/schema.sql
-CMD ["psql", "-f", "/docker-entrypoint-initdb.docker/schema.sql", "my_database"]
-CMD ["postgres"]
+COPY ./schema.sql /docker-entrypoint-initdb.d/schema.sql

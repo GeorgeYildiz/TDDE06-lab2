@@ -15,7 +15,7 @@ import (
 
 const (
 	databaseUser = "postgres"
-	databaseName = "my_database"
+	databaseName = "postgres"
 )
 
 type Task struct {
@@ -70,10 +70,15 @@ func getURLParameter(path string) *string {
 // It returns a slice of List structs.
 func getLists(db *sql.DB, w http.ResponseWriter) []List {
 	rows, err := db.Query("select * from list")
+	fmt.Println(err)
 	CheckFatal(err, w)
 
 	// Retrieve all lists from the query
 	res := make([]List, 0)
+	if(rows == nil) {
+		fmt.Println("rows ar nil")
+	} 
+	
 	for rows.Next() {
 		list := List{}
 		err := rows.Scan(&list.Id, &list.Name)
@@ -201,8 +206,8 @@ func Handlers() *http.ServeMux {
 }
 
 func main() {
-	// Listen on port 8080
-	err := http.ListenAndServe(":8080", Handlers())
+	// Listen on port 8082
+	err := http.ListenAndServe(":8082", Handlers())
 	if err != nil {
 		log.Fatal(err)
 	}

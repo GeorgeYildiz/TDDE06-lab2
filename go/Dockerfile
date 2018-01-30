@@ -22,8 +22,11 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 RUN go get github.com/lib/pq
 
 COPY ./todo.go /usr/local/go_app/todo.go
+COPY ./todo_test.go /usr/local/go_app/todo_test.go
+COPY ./schema.sql /usr/local/go_app/schema.sql
 
 RUN go build /usr/local/go_app/todo.go
 
-EXPOSE 8080
-CMD go run /usr/local/go_app/todo.go
+EXPOSE 8082
+WORKDIR /usr/local/go_app/
+CMD go test && go run todo.go
