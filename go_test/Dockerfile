@@ -29,4 +29,4 @@ RUN go build /usr/local/go_app/todo.go
 
 EXPOSE 8082
 WORKDIR /usr/local/go_app/
-CMD go run todo.go
+CMD go test
