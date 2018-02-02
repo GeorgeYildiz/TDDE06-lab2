@@ -43,4 +43,33 @@ You can also use `go run todo.go` to run the server directly.
 Test the system to make sure everything works.
 This is done by running `go test` in the application folder.
 
-# build
+# build with CI
+cd postgres_test/ 
+docker build -t postgres_image_test .
+
+cd ../go_test/
+docker build -t go_image_test .
+
+cd ..
+
+docker run --name postgres_container_test --rm -d postgres_image_test
+sleep 5
+docker run --name go_container_test --link postgres_container_test:db --rm go_image_test
+
+docker stop postgres_container_test
+
+cd postgres/
+docker build -t postgres_image .
+
+cd ../go
+docker build -t go_image .
+
+cd ../nginx
+docker build -t nginx_image .
+
+cd ..
+
+docker run --name postgres_container_j --rm -d postgres_image
+docker run --name go_container_j --link postgres_container_j:db --rm -d go_image
+docker run --name nginx_container_j --link go_container_j:app --rm -d -p 80:80 nginx_image
+docker container ls
